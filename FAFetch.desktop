@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FAFetch
+Exec=/home/sussy/Apps/FAFetch.sh
+
+Icon=
+Terminal=true
+Categories=
+StartupNotify=true
