@@ -16,7 +16,7 @@ distro=$(cat /etc/*release | grep "PRETTY_NAME=" | sed 's/PRETTY_NAME=//' | sed 
 DE=$(echo $XDG_CURRENT_DESKTOP)
 WM=$(wmctrl -m | grep Name: | sed 's/Name://')
 DS=$(echo $XDG_SESSION_TYPE)
-CPU=$(lscpu | grep "Model name" | sed 's/Model name//')
+CPU=$(lscpu | grep "Model name" | sed 's/Model name://' | sed -e 's/^[ \t]*//')
 GPU=$(lspci  -v -s  $(lspci | grep ' VGA ' | cut -d" " -f 1) | grep "VGA compatible controller:" | sed 's/01:00.0 VGA compatible controller://')
 Res=$(xdpyinfo | awk '/dimensions/ {print $2}')
 RAM=$(cat /proc/meminfo | grep MemTotal | sed 's/[^0-9]*//g' )
