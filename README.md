@@ -1,6 +1,6 @@
 # LadFetch
 Simple and lightweight neofetch alternative (without the ASCII art) 
-![image](https://user-images.githubusercontent.com/108401269/197393708-9d929628-a48c-49c5-adac-8f93674ae5d5.png)
+![image](https://user-images.githubusercontent.com/108401269/197394458-9cd38dff-558d-43c7-8e62-daa4069357d1.png)
 The main point is to deliver a simmilar experience to Neofetch with even more features, and several hundred times smaller file size.
 
 # Installation steps:
