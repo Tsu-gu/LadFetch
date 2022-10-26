@@ -5,6 +5,7 @@ The main point is to deliver a simmilar experience to Neofetch with even more fe
 
 # Installation
 Paste this in your terminal.
+
 `wget -q https://raw.githubusercontent.com/Tsu-gu/LadFetch/main/LadFetch.sh && chmod +x LadFetch.sh && ./LadFetch.sh`
 
 Or do it manually.
