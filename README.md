@@ -7,3 +7,4 @@ The main point is to deliver a simmilar experience to Neofetch with even more fe
 1. Download LadFetch.sh
 2. Open your terminal in the same directory
 3. Mark the script as executable (right click, allow program to run) and launch it by typing ./LadFetch.sh
+Or just execute this inside of your terminal. `wget https://raw.githubusercontent.com/Tsu-gu/LadFetch/main/LadFetch.sh && chmod +x LadFetch.sh && ./LadFetch.sh`
