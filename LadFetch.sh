@@ -20,6 +20,7 @@ DE=$(echo $XDG_CURRENT_DESKTOP)
 WM=$(wmctrl -m | grep Name: | sed 's/Name://' | sed -e 's/^[ \t]*//')
 DS=$(echo $XDG_SESSION_TYPE)
 CPU=$(lscpu | grep "Model name" | sed 's/Model name://' | sed -e 's/^[ \t]*//')
+CPUa=$(lscpu | grep "Architecture" | sed 's/Architecture://' | sed -e 's/^[ \t]*//')
 GPU=$(lspci  -v -s  $(lspci | grep ' VGA ' | cut -d" " -f 1) | grep "VGA compatible controller:" | sed 's/01:00.0 VGA compatible controller://' | sed -e 's/^[ \t]*//')
 Res=$(xdpyinfo | awk '/dimensions/ {print $2}')
 RAM=$(cat /proc/meminfo | grep MemTotal | sed 's/[^0-9]*//g' )
@@ -48,7 +49,7 @@ echo -e "     \e[1;31mDisplay Server:\e[1;31m \e[1;32m$DS\e[1;32m"
 echo -e "              \e[1;31mShell:\e[1;31m \e[1;32m$Shell\e[1;32m"
 echo -e "             \e[1;31mPython:\e[1;31m \e[1;32m$Python\e[1;32m"
 echo -e "           \e[1;31mTerminal:\e[1;31m \e[1;32m$Terminal\e[1;32m"
-echo -e "                \e[1;31mCPU:\e[1;31m \e[1;32m$CPU\e[1;32m"
+echo -e "                \e[1;31mCPU:\e[1;31m \e[1;32m$CPU $CPUa"
 echo -e "                \e[1;31mGPU:\e[1;31m \e[1;32m$GPU\e[1;32m"
 echo -e "         \e[1;31mResolution:\e[1;31m \e[1;32m$Res\e[1;32m"
 echo -e "                \e[1;31mRAM:\e[1;31m \e[1;32m$RAMtoMB MB\e[1;32m"
