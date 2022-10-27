@@ -1,8 +1,5 @@
 #!/bin/bash
 
-kernel=$(uname -r)
-who=$(whoami)
-
 packagesrpm=$(dnf list installed | wc -l)
 packagesdeb=$(apt list --installed | wc -l)
 packagesarch=$(pacman -Qi | grep "Name" | wc -l)
@@ -13,6 +10,8 @@ echo "Searching your drive for AppImages. This might take a few seconds dependin
 packagesappimage=$(ls -R | grep ".AppImage" | wc -l)
 flatpak=$(flatpak list | wc -l)
 
+kernel=$(uname -r)
+who=$(whoami)
 uptime=$(uptime -p | sed 's/up//' | sed -e 's/^[ \t]*//')
 distro=$(cat /etc/*release | grep "PRETTY_NAME=" | sed 's/PRETTY_NAME=//' | sed 's/"//g')
 DE=$(echo $XDG_CURRENT_DESKTOP)
@@ -21,10 +20,16 @@ WM=$(wmctrl -m | grep Name: | sed 's/Name://' | sed -e 's/^[ \t]*//')
 DS=$(echo $XDG_SESSION_TYPE)
 CPU=$(lscpu | grep "Model name" | sed 's/Model name://' | sed -e 's/^[ \t]*//')
 CPUa=$(lscpu | grep "Architecture" | sed 's/Architecture://' | sed -e 's/^[ \t]*//')
-GPU=$(lspci  -v -s  $(lspci | grep ' VGA ' | cut -d" " -f 1) | grep "VGA compatible controller:" | sed 's/01:00.0 VGA compatible controller://' | sed -e 's/^[ \t]*//')
+GPU=$(lspci  -v -s  $(lspci | grep ' VGA ' | cut -d" " -f 1) | grep "VGA compatible controller:" | sed 's/01:00.0 VGA compatible controller://')
 Res=$(xdpyinfo | awk '/dimensions/ {print $2}')
+
 RAM=$(cat /proc/meminfo | grep MemTotal | sed 's/[^0-9]*//g' )
 RAMtoMB=$(($RAM / 1024))
+
+RAMavailable=$(cat /proc/meminfo | grep "MemAvailable" | sed 's/[^0-9]*//g')
+RAMfree=$(($RAM - $RAMavailable))
+Ramfreetomb=$(($RAMfree / 1024))
+
 Drive=$(lsblk -b --output SIZE -n -d /dev/sda)
 # The number converts bits to gigabites
 DriveGB=$(($Drive / 1073741824))
@@ -52,7 +57,7 @@ echo -e "           \e[1;31mTerminal:\e[1;31m \e[1;32m$Terminal\e[1;32m"
 echo -e "                \e[1;31mCPU:\e[1;31m \e[1;32m$CPU $CPUa"
 echo -e "                \e[1;31mGPU:\e[1;31m \e[1;32m$GPU\e[1;32m"
 echo -e "         \e[1;31mResolution:\e[1;31m \e[1;32m$Res\e[1;32m"
-echo -e "                \e[1;31mRAM:\e[1;31m \e[1;32m$RAMtoMB MB\e[1;32m"
+echo -e "                \e[1;31mRAM:\e[1;31m \e[1;32m$Ramfreetomb/$RAMtoMB MB\e[1;32m"
 echo -e "          \e[1;31mDisk Size:\e[1;31m \e[1;32m$DriveGB GB\e[1;32m"
 
 echo -e "\e[0;39m--------------------------------------------------------------------\e[0;39m"
