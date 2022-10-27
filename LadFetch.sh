@@ -20,7 +20,7 @@ WM=$(wmctrl -m | grep Name: | sed 's/Name://' | sed -e 's/^[ \t]*//')
 DS=$(echo $XDG_SESSION_TYPE)
 CPU=$(lscpu | grep "Model name" | sed 's/Model name://' | sed -e 's/^[ \t]*//')
 CPUa=$(lscpu | grep "Architecture" | sed 's/Architecture://' | sed -e 's/^[ \t]*//')
-GPU=$(lspci  -v -s  $(lspci | grep ' VGA ' | cut -d" " -f 1) | grep "VGA compatible controller:" | sed 's/01:00.0 VGA compatible controller://')
+GPU=$(lspci  -v -s  $(lspci | grep ' VGA ' | cut -d" " -f 1) | grep "VGA compatible controller:" | sed 's/01:00.0 VGA compatible controller://' | sed -e 's/^[ \t]*//')
 Res=$(xdpyinfo | awk '/dimensions/ {print $2}')
 
 RAM=$(cat /proc/meminfo | grep MemTotal | sed 's/[^0-9]*//g' )
