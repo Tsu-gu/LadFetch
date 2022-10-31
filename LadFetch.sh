@@ -3,6 +3,7 @@
 packagesrpm=$(dnf list installed | wc -l)
 packagesdeb=$(apt list --installed | wc -l)
 packagesarch=$(pacman -Qi | grep "Name" | wc -l)
+sum=$(( $packagesrpm + $packagesdeb + $packagesarch ))
 packagesnixenv=$(nix-env -q | wc -l)
 echo "Ignore these errors. Your system doesn't use these package managers."
 # Delete this line in case the script is loading too slow / or you do not use AppImages
@@ -40,11 +41,9 @@ Terminal=$(basename "$(cat "/proc/$PPID/comm")")
 
 # Clears the terminal from the errors
 clear
-
 echo -e "\e[0;39m-----------------------------LadFetch--------------------------------\e[0;39m"
 echo -e "       \e[1;31mDistribution:\e[1;31m \e[1;32m$distro\e[1;32m"
-echo -e " \e[1;31mInstalled packages:\e[1;31m \e[1;32m$packagesrpm(RPM) $packagesdeb(DEB) $packagesarch(ARCH)\e[1;32m"
-echo -e "                     \e[1;32m$flatpak(Flatpak) $packagesnixenv(nix-env) $packagesappimage(AppImage)\e[1;32m"
+echo -e " \e[1;31mInstalled packages:\e[1;31m \e[1;32m$sum(Native)\e[1;32m \e[1;32m$flatpak(Flatpak) $packagesnixenv(nix-env) $packagesappimage(AppImage)\e[1;32m"
 echo -e "             \e[1;31mUptime:\e[1;31m \e[1;32m$uptime\e[1;32m"
 echo -e "           \e[1;31mUsername:\e[1;31m \e[1;32m$who\e[1;32m"
 echo -e "             \e[1;31mKernel:\e[1;31m \e[1;32m$kernel\e[1;32m"
