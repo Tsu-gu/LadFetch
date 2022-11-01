@@ -4,7 +4,8 @@ Simple and lightweight neofetch alternative (without the ASCII art)
 (Ubuntu and Arch aren't displaying correctly as I'm running them through Distrobox, not natively.)
 
 The main point is to deliver a simmilar experience to Neofetch with even more features, and several hundred times smaller file size.
-Currently supports Debian, Arch and RedHat based distros. SUSE coming soon. Others will work just fine, except for the package count, but you can modify it easily enough.
+Currently supports apt, dnf, zypper, and pacman package listing.
+
 # Installation
 **Paste this in your terminal.**
 
