@@ -3,7 +3,8 @@
 packagesrpm=$(dnf list installed | wc -l)
 packagesdeb=$(apt list --installed | wc -l)
 packagesarch=$(pacman -Qi | grep "Name" | wc -l)
-sum=$(( $packagesrpm + $packagesdeb + $packagesarch ))
+packagessuse=$(zypper search -i | wc -l)
+sum=$(( $packagesrpm + $packagesdeb + $packagesarch + $packagessuse ))
 packagesnixenv=$(nix-env -q | wc -l)
 echo "Ignore these errors. Your system doesn't use these package managers."
 # Delete this line in case the script is loading too slow / or you do not use AppImages
