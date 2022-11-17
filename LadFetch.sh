@@ -1,14 +1,22 @@
 #!/bin/bash
 
+# Your system will run all of these commands. If it doesn't find let's say Zypper, it will just skip it and the output will be 0,
+# therefore it wont affect the final sum'
+
 packagesrpm=$(dnf list installed | wc -l)
+clear
 packagesdeb=$(apt list --installed | wc -l)
+clear
 packagesarch=$(pacman -Qi | grep "Name" | wc -l)
+clear
 packagessuse=$(zypper search -i | wc -l)
-sum=$(( $packagesrpm + $packagesdeb + $packagesarch + $packagessuse ))
+clear
+packagesvoid=$(xbps-query -l | wc -l)
+sum=$(( $packagesrpm + $packagesdeb + $packagesarch + $packagessuse + $packagesvoid))
+
 packagesnixenv=$(nix-env -q | wc -l)
-echo "Ignore these errors. Your system doesn't use these package managers."
+clear
 # Delete this line in case the script is loading too slow / or you do not use AppImages
-echo "Searching your drive for AppImages. This might take a few seconds depending on the number of files inside of your home folder."
 packagesappimage=$(ls -R | grep ".AppImage" | wc -l)
 flatpak=$(flatpak list | wc -l)
 
@@ -37,20 +45,26 @@ Drive=$(lsblk -b --output SIZE -n -d /dev/sda)
 DriveGB=$(($Drive / 1073741824))
 Shell=$(echo $SHELL)
 Python=$(python3 --version)
-# I'm afraid this might be broken for gnome-terminal users, as it prints out "bash instead". Works just fine on xfce tho.
+xorgversion=$(xdpyinfo | grep "X.Org version:" | sed 's/X.Org version://' | sed -e 's/^[ \t]*//')
+# I'm afraid this might be broken for gnome-terminal users, as it prints out "bash"" instead. Works just fine on xfce tho.
 Terminal=$(basename "$(cat "/proc/$PPID/comm")")
 
+devicever=$(cat /sys/devices/virtual/dmi/id/product_version)
+devicename=$(cat /sys/devices/virtual/dmi/id/product_name)
+hostname=$(hostname)
 # Clears the terminal from the errors
 clear
-echo -e "\e[0;39m-----------------------------LadFetch--------------------------------\e[0;39m"
+
+echo -e "\e[0;39m------------------------------------------------------------------\e[0;39m"
+echo -e "              \e[0;39m $who@$hostname - $devicename $devicever \e[0;39m"       
+echo -e "\e[0;39m------------------------------------------------------------------\e[0;39m"
 echo -e "       \e[1;31mDistribution:\e[1;31m \e[1;32m$distro\e[1;32m"
 echo -e " \e[1;31mInstalled packages:\e[1;31m \e[1;32m$sum(Native)\e[1;32m \e[1;32m$flatpak(Flatpak) $packagesnixenv(nix-env) $packagesappimage(AppImage)\e[1;32m"
 echo -e "             \e[1;31mUptime:\e[1;31m \e[1;32m$uptime\e[1;32m"
-echo -e "           \e[1;31mUsername:\e[1;31m \e[1;32m$who\e[1;32m"
 echo -e "             \e[1;31mKernel:\e[1;31m \e[1;32m$kernel\e[1;32m"
 echo -e "\e[1;31mDesktop Environment:\e[1;31m \e[1;32m$DE\e[1;32m"
 echo -e "     \e[1;31mWindow Manager:\e[1;31m \e[1;32m$WM\e[1;32m"
-echo -e "     \e[1;31mDisplay Server:\e[1;31m \e[1;32m$DS\e[1;32m"
+echo -e "     \e[1;31mDisplay Server:\e[1;31m \e[1;32m$DS ($xorgversion)\e[1;32m"
 echo -e "              \e[1;31mShell:\e[1;31m \e[1;32m$Shell\e[1;32m"
 echo -e "             \e[1;31mPython:\e[1;31m \e[1;32m$Python\e[1;32m"
 echo -e "           \e[1;31mTerminal:\e[1;31m \e[1;32m$Terminal\e[1;32m"
@@ -60,7 +74,5 @@ echo -e "         \e[1;31mResolution:\e[1;31m \e[1;32m$Res\e[1;32m"
 echo -e "                \e[1;31mRAM:\e[1;31m \e[1;32m$Ramfreetomb/$RAMtoMB MB\e[1;32m"
 echo -e "          \e[1;31mDisk Size:\e[1;31m \e[1;32m$DriveGB GB\e[1;32m"
 
-echo -e "\e[0;39m--------------------------------------------------------------------\e[0;39m"
-
-# Else the window dissapears right after the script finishes.
+# Keep this or else the window dissapears right after the script finishes.
 sleep 5000 
